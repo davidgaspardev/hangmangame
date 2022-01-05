@@ -14,7 +14,7 @@ bool has_letter(const char *kicks, const char letter) {
     return false;
 }
 
-void load_screen(const char *kicks, const char *secretword) {
+void print_hangman(const char *kicks, const char *secretword) {
     for (int i = 0; i < strlen(secretword); i++)
     {
         char letter = secretword[i];
@@ -50,7 +50,7 @@ int main() {
     char kicks[26];
 
     do {
-        load_screen(kicks, secretword);
+        print_hangman(kicks, secretword);
 
         printf("Enter a letter: ");
         scanf(" %c", &letter);
