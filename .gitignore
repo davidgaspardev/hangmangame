@@ -4,3 +4,7 @@
 
 # Ignore object files
 *.o
+
+# Ignore directories
+/bin
+/build
