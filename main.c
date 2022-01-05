@@ -3,6 +3,40 @@
 #include <stdlib.h>
 #include <string.h>
 
+bool has_letter(const char *kicks, const char letter) {
+    for (int j = 0; j < strlen(kicks); j++)
+    {
+        if (kicks[j] == letter)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void load_screen(const char *kicks, const char *secretword) {
+    for (int i = 0; i < strlen(secretword); i++)
+    {
+        char letter = secretword[i];
+        if (!has_letter(kicks, letter))
+        {
+            if (letter == ' ')
+            {
+                printf(" ");
+            }
+            else
+            {
+                printf("_ ");
+            }
+        }
+        else
+        {
+            printf("%c", letter);
+        }
+    }
+    printf("\n");
+}
+
 int main() {
 
     char secretword[20];
@@ -16,31 +50,7 @@ int main() {
     char kicks[26];
 
     do {
-        for (int i = 0; i < strlen(secretword); i++)
-        {
-            bool has_letter = false;
-            for (int j = 0; j < strlen(kicks); j++)
-            {
-                if (kicks[j] == secretword[i])
-                {
-                    printf("%c", kicks[j]);
-                    has_letter = true;
-                    break;
-                }
-            }
-            if (!has_letter)
-            {
-                if (secretword[i] == ' ')
-                {
-                    printf(" ");
-                }
-                else
-                {
-                    printf("_ ");
-                }
-            }
-        }
-        printf("\n");
+        load_screen(kicks, secretword);
 
         printf("Enter a letter: ");
         scanf(" %c", &letter);
