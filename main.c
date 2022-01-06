@@ -37,6 +37,15 @@ void print_hangman(const char *kicks, const char *secretword) {
     printf("\n");
 }
 
+void kick(char * kicks, int attempts) {
+    char letter;
+    printf("Enter a letter: ");
+    scanf(" %c", &letter);
+    fflush(stdin);
+
+    kicks[attempts] = letter;
+}
+
 int main() {
 
     char secretword[20];
@@ -46,17 +55,12 @@ int main() {
     bool won = false;
     bool hanged = false;
     int attempts = 0;
-    char letter;
     char kicks[26];
 
     do {
         print_hangman(kicks, secretword);
 
-        printf("Enter a letter: ");
-        scanf(" %c", &letter);
-        fflush(stdin);
-
-        kicks[attempts] = letter;
+        kick(kicks, attempts);
 
         if(attempts == 25) {
             hanged = true;
