@@ -3,7 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool has_letter(const char *kicks, const char letter) {
+// Global variables
+char secretword[20];
+int attempts = 0;
+char kicks[26];
+
+bool has_letter_in_kicks(const char letter) {
     for (int j = 0; j < strlen(kicks); j++)
     {
         if (kicks[j] == letter)
@@ -14,11 +19,33 @@ bool has_letter(const char *kicks, const char letter) {
     return false;
 }
 
-void print_hangman(const char *kicks, const char *secretword) {
+bool has_letter_in_secretword(const char letter) {
+    for (int j = 0; j < strlen(secretword); j++)
+    {
+        if (secretword[j] == letter)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool already_kicked(const char letter) {
+    for (int i = 0; i < strlen(kicks); i++)
+    {
+        if (kicks[i] == letter)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void print_hangman() {
     for (int i = 0; i < strlen(secretword); i++)
     {
         char letter = secretword[i];
-        if (!has_letter(kicks, letter))
+        if (!has_letter_in_kicks(letter))
         {
             if (letter == ' ')
             {
@@ -37,37 +64,49 @@ void print_hangman(const char *kicks, const char *secretword) {
     printf("\n");
 }
 
-void kick(char * kicks, int attempts) {
+void kick() {
     char letter;
     printf("Enter a letter: ");
     scanf(" %c", &letter);
     fflush(stdin);
 
-    kicks[attempts] = letter;
+    if (!already_kicked(letter)) {
+        kicks[attempts] = letter;
+        attempts++;
+    }
+}
+
+bool won() {
+    for (int i = 0; i < strlen(secretword); i++)
+    {
+        if (!has_letter_in_kicks(secretword[i]) && secretword[i] != ' ')
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool hanged() {
+    int failed_attempts = 0;
+    for (int i = 0; i < strlen(kicks); i++)
+    {
+        if(!has_letter_in_secretword(kicks[i]))
+        {
+            failed_attempts++;
+        }
+    }
+
+    return failed_attempts > 4;
 }
 
 int main() {
-
-    char secretword[20];
-
     sprintf(secretword, "Black Hole");
 
-    bool won = false;
-    bool hanged = false;
-    int attempts = 0;
-    char kicks[26];
-
     do {
-        print_hangman(kicks, secretword);
-
-        kick(kicks, attempts);
-
-        if(attempts == 25) {
-            hanged = true;
-        } else {
-            attempts++;
-        }
-    } while(!won && !hanged);
+        print_hangman();
+        kick();
+    } while(!won() && !hanged());
 
     printf("secretword: %s\n", secretword);
 }
