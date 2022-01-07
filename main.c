@@ -1,44 +1,19 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
+#include "main.h"
 
 // Global variables
 char secretword[20];
 int attempts = 0;
 char kicks[26];
 
-bool has_letter_in_kicks(const char letter) {
-    for (int j = 0; j < strlen(kicks); j++)
-    {
-        if (kicks[j] == letter)
-        {
-            return true;
-        }
-    }
-    return false;
-}
+int main() {
+    sprintf(secretword, "Black Hole");
 
-bool has_letter_in_secretword(const char letter) {
-    for (int j = 0; j < strlen(secretword); j++)
-    {
-        if (secretword[j] == letter)
-        {
-            return true;
-        }
-    }
-    return false;
-}
+    do {
+        print_hangman();
+        kick();
+    } while(!won() && !hanged());
 
-bool already_kicked(const char letter) {
-    for (int i = 0; i < strlen(kicks); i++)
-    {
-        if (kicks[i] == letter)
-        {
-            return true;
-        }
-    }
-    return false;
+    printf("secretword: %s\n", secretword);
 }
 
 void print_hangman() {
@@ -64,6 +39,17 @@ void print_hangman() {
     printf("\n");
 }
 
+bool has_letter_in_kicks(const char letter) {
+    for (int j = 0; j < strlen(kicks); j++)
+    {
+        if (kicks[j] == letter)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void kick() {
     char letter;
     printf("Enter a letter: ");
@@ -74,6 +60,17 @@ void kick() {
         kicks[attempts] = letter;
         attempts++;
     }
+}
+
+bool already_kicked(const char letter) {
+    for (int i = 0; i < strlen(kicks); i++)
+    {
+        if (kicks[i] == letter)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool won() {
@@ -100,13 +97,13 @@ bool hanged() {
     return failed_attempts > 4;
 }
 
-int main() {
-    sprintf(secretword, "Black Hole");
-
-    do {
-        print_hangman();
-        kick();
-    } while(!won() && !hanged());
-
-    printf("secretword: %s\n", secretword);
+bool has_letter_in_secretword(const char letter) {
+    for (int j = 0; j < strlen(secretword); j++)
+    {
+        if (secretword[j] == letter)
+        {
+            return true;
+        }
+    }
+    return false;
 }
