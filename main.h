@@ -2,7 +2,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
+void load_scretwork();
 void print_hangman();
 bool has_letter_in_kicks(const char letter);
 void kick();

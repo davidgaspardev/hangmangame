@@ -6,7 +6,8 @@ int attempts = 0;
 char kicks[26];
 
 int main() {
-    sprintf(secretword, "Black Hole");
+    // sprintf(secretword, "Black Hole");
+    load_scretwork();
 
     do {
         print_hangman();
@@ -14,6 +15,22 @@ int main() {
     } while(!won() && !hanged());
 
     printf("secretword: %s\n", secretword);
+}
+
+void load_scretwork() {
+    FILE* file = fopen("word.txt", "r");
+    if (file == NULL) {
+        exit(1);
+    }
+    int words_limit;
+    fscanf(file, "%d", &words_limit);
+    srand(time(0));
+    int randomic = rand() % words_limit;
+    for (int i = 0; i <= randomic; i++)
+    {
+        fscanf(file, "%s", secretword);
+    }
+    fclose(file);
 }
 
 void print_hangman() {
